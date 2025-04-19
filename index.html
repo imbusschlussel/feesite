@@ -49,6 +49,7 @@
         if (pause) return;
 
         let rect = image.getBoundingClientRect()
+        let bodyRect = body.getBoundingClientRect()
 
         let left = rect.x
         let top = rect.y
@@ -56,10 +57,10 @@
         console.log(left, top)
         console.log(width, height)
 
-        if (left + rect.width >= width || left <= 0) {
+        if (left + rect.width >= bodyRect.x || left <= 0) {
           velocityX = -velocityX
         }
-        if (top + rect.height >= height || top <= 0) {
+        if (top + rect.height >= bodyRect.y || top <= 0) {
           velocityY = -velocityY
         }
 
