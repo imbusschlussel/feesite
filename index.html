@@ -59,10 +59,11 @@
     <script>
       function play() {
         const audioElement = document.querySelector("#audio")
-        if (audioElement.paused) {
-          audioElement.play()
+        if (!audioElement.paused) {
+          audioElement.pause()
+          return
         }
-        audioElement.pause()
+        audioElement.play()
       }
 
       const image = document.getElementById("image")
