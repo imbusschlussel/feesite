@@ -12,14 +12,33 @@
       }
 
       body {
+        font-family: Arial, Helvetica, sans-serif;
         width: 100vh;
         height: 100vw;
         margin: 0;
         padding: 0;
       }
+      
+      nav ul {
+        display: flex;
+        position: absolute;
+        bottom: 32px;
+        left: 32px;
+      }
+
+      nav ul li {
+        font-weight: 600;
+        padding-right: 16px;
+      }
     </style>
   </head>
   <body>
+    <nav>
+      <ul>
+        <li>TEST1</li>
+        <li>TEST2</li>
+      </ul>
+    </nav>
     <img id="image" src="cover.webp" alt="Album cover" onclick="play()" />
     <audio id="audio" src="./atf_tfop.mp3" />
     <script>
