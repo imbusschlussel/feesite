@@ -17,6 +17,7 @@
         height: 100vw;
         margin: 0;
         padding: 0;
+        overflow: hidden;
       }
       
       nav ul {
@@ -24,8 +25,9 @@
         list-style-type: none;
         display: flex;
         position: absolute;
-        bottom: 32px;
-        left: 32px;
+        bottom: 16px;
+        left: 16px;
+        z-index: 10;
       }
 
       nav ul li {
@@ -33,13 +35,17 @@
         font-size: 2rem;
         padding-right: 16px;
       }
+
+      a {
+        text-decoration: none;
+      }
     </style>
   </head>
   <body>
     <nav>
       <ul>
-        <li>TEST1</li>
-        <li>TEST2</li>
+        <li><a href="https://instagram.com">INSTAGRAM</a></li>
+        <li><a href="https://soundcloud.com">SOUNDCLOUD</a></li>
       </ul>
     </nav>
     <img id="image" src="cover.webp" alt="Album cover" onclick="play()" />
