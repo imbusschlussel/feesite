@@ -7,7 +7,8 @@
     <title>Finder's Fee</title>
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
     <style>
-      #cover-image {
+      #image {
+        position: absolute;
         width: 300px;
         height: 300px;
       }
@@ -20,7 +21,7 @@
     </style>
   </head>
   <body>
-    <img id="cover-image" src="cover.webp" alt="Album cover" onclick="play()" />
+    <img id="image" src="cover.webp" alt="Album cover" onclick="play()" />
     <audio id="audio" src="./atf_tfop.mp3" />
     <script>
       function play() {
@@ -28,37 +29,32 @@
         audioElement.play()
       }
 
-      var parent = document.querySelector('body'); // Element that holds the mover
-      var mover = document.getElementById('cover-image'); // The mover, can be anything
-      var dir = 1; // The direction we are moving... 1 is right, -1 is left.
-      var dist = 10; // The distance we move each "tick"
+      const image = document.getElementById("image")
+      let posX = 100;
+      let posY = 100;
+      let velocityX = 1;
+      let velocityY = 1;
 
-      // The ID will let us stop it later if we want.
-      var intervalId = setInterval(function() {
-          // Get the left, remove the "px" from the end and convert it to an integer.
-          var posX = parseInt(mover.style.left.replace(/px$/, '')) || 0;
+      function updatePosition() {
+        const imageRect = image.getBoundingClientRect()
+        const windowWidth = window.innerWidth
+        const windowHeight = window.innerHeight
 
-          // Add dir * dist
-          posX += dir * dist;
+        if (posX + imageRect.width >= windowWidth || posX <=0) {
+          velocityX = -velocityX
+        }
+        if (posY + imageRect.height >= windowHeight || posY <=0) {
+          velocityY = -velocityY
+        }
 
-          // If we are moving right and we've gone over the right edge...
-          if (dir == 1 && posX + mover.offsetWidth > parent.offsetWidth) {
-              // only move right to the edge...
-              posX -= posX + mover.offsetWidth - parent.offsetWidth;
-              // and change direction.
-              dir *= -1
-          // If we are moving left and we've gone over the left edge...
-          } else if (dir == -1 && posX < 0) {
-              // stop at zero...
-              posX = 0;
-              // and change direction...
-              dir *= -1;
-          }
+        posX += velocityX
+        posY += velocityY
 
-          // Set the new position
-          mover.style.left = posX + "px";
-      }, 100); // this number is how many milliseconds in between each move.
-      // Smaller interval time means smoother movement but slower performance.
+        image.style.transform = `translate(${posX}px, ${poxY}px)`
+        requestAnimationFrame(updatePosition)
+      }
+
+      updatePosition()
     </script>
   </body>
 </html>
