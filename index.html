@@ -39,8 +39,8 @@
 
       let width
         , height
-        , velocityX = 1
-        , velocityY = 1
+        , velocityX = 0.5
+        , velocityY = 0.5
         , pause = true
         , previousColor = 0
       ;
@@ -54,6 +54,7 @@
         let top = rect.y
 
         console.log(left, top)
+        console.log(width, height)
 
         if (left + rect.width >= width || left <= 0) {
           velocityX = -velocityX
@@ -78,8 +79,6 @@
           document.documentElement.clientHeight ||
           document.body.clientHeight
         ;
-
-        console.log(width, height)
 
         pause =
           width <= image.getBoundingClientRect().width ||
