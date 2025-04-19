@@ -8,7 +8,6 @@
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
     <style>
       #image {
-        position: absolute;
         width: 300px;
         height: 300px;
       }
@@ -16,7 +15,8 @@
       body {
         width: 100vh;
         height: 100vw;
-        overflow: hidden;
+        margin: 0;
+        padding: 0;
       }
     </style>
   </head>
@@ -40,20 +40,21 @@
         const windowWidth = window.innerWidth
         const windowHeight = window.innerHeight
 
-        if (posX + imageRect.width >= windowWidth || posX <=0) {
+        if (posX + imageRect.width >= windowWidth || posX <= 0) {
           velocityX = -velocityX
         }
-        if (posY + imageRect.height >= windowHeight || posY <=0) {
+        if (posY + imageRect.height >= windowHeight || posY <= 0) {
           velocityY = -velocityY
         }
 
         posX += velocityX
         posY += velocityY
 
-        image.style.transform = `translate(${posX}px, ${poxY}px)`
+        image.style.transform = `translate(${posX}px, ${posY}px)`
         requestAnimationFrame(updatePosition)
       }
 
+      image.style.position = 'absolute'
       updatePosition()
     </script>
   </body>
