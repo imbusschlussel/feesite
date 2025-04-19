@@ -30,6 +30,7 @@
         bottom: 16px;
         left: 16px;
         z-index: 10;
+        transform: rotate(-90deg);
       }
 
       nav ul li {
@@ -43,12 +44,6 @@
         pointer-events: auto;
         text-decoration: none;
         color: black;
-      }
-
-      @media (min-width: 720px) {
-        nav ul li {
-          font-size: 2rem;
-        }
       }
     </style>
   </head>
@@ -64,7 +59,10 @@
     <script>
       function play() {
         const audioElement = document.querySelector("#audio")
-        audioElement.play()
+        if (audioElement.paused) {
+          audioElement.play()
+        }
+        audioElement.pause()
       }
 
       const image = document.getElementById("image")
