@@ -27,8 +27,6 @@
     <img id="cover-image" src="cover.webp" alt="Album cover" onclick="play()" />
     <audio id="audio" src="./atf_tfop.mp3" />
     <script>
-      reset()
-
       function play() {
         const audioElement = document.querySelector("#audio")
         audioElement.play()
@@ -89,6 +87,8 @@
         iamge.style.left = 'calc(50vw - 150px)'
         iamge.style.top = 'calc(50vh - 28px)'
       }
+
+      reset()
 
       window.addEventListener('resize', reset, true)
     </script>
