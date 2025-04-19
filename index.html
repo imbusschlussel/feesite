@@ -79,6 +79,8 @@
           document.body.clientHeight
         ;
 
+        console.log(width, height)
+
         pause =
           width <= image.getBoundingClientRect().width ||
           height <= image.getBoundingClientRect().height
@@ -87,7 +89,6 @@
         iamge.style.left = 'calc(50vw - 150px)'
         iamge.style.top = 'calc(50vh - 28px)'
       }
-
 
       window.addEventListener('resize', reset, true)
     </script>
