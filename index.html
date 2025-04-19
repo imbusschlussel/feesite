@@ -16,8 +16,8 @@
       }
 
       body {
-        width: 1000px;
-        height: 1000px;
+        width: 100vh;
+        height: 100vw;
         overflow: hidden;
         position: relative;
       }
@@ -32,64 +32,37 @@
         audioElement.play()
       }
 
-      const body = document.querySelector('body')
-      const image = document.querySelector('#cover-image')
+      var parent = document.getElementById('body'); // Element that holds the mover
+var mover = document.getElementById('#cover-image'); // The mover, can be anything
+var dir = 1; // The direction we are moving... 1 is right, -1 is left.
+var dist = 10; // The distance we move each "tick"
 
-      const width = body.getBoundingClientRect().x
-      const height = body.getBoundingClientRect().y
+// The ID will let us stop it later if we want.
+var intervalId = setInterval(function() {
+    // Get the left, remove the "px" from the end and convert it to an integer.
+    var posX = parseInt(mover.style.left.replace(/px$/, '')) || 0;
 
-      let FPS = 60
+    // Add dir * dist
+    posX += dir * dist;
 
-      let velocityX = 0.5
-        , velocityY = 0.5
-        , pause = true
-        , previousColor = 0
-      ;
+    // If we are moving right and we've gone over the right edge...
+    if (dir == 1 && posX + mover.offsetWidth > parent.offsetWidth) {
+        // only move right to the edge...
+        posX -= posX + mover.offsetWidth - parent.offsetWidth;
+        // and change direction.
+        dir *= -1
+    // If we are moving left and we've gone over the left edge...
+    } else if (dir == -1 && posX < 0) {
+        // stop at zero...
+        posX = 0;
+        // and change direction...
+        dir *= -1;
+    }
 
-      setInterval(() => {
-        if (pause) return;
-
-        let rect = image.getBoundingClientRect()
-
-        let left = rect.x
-        let top = rect.y
-
-        if (left + rect.width >= width || left <= 0) {
-          velocityX = -velocityX
-        }
-        if (top + rect.height >= height || top <= 0) {
-          velocityY = -velocityY
-        }
-
-        image.style.left = rect.x + velocityX + 'px'
-        image.style.top = rect.y + velocityY + 'px'
-      }, 1000 / FPS)
-
-      const reset = () => {
-        // width =
-        //   window.innerWidth ||
-        //   document.documentElement.clientWidth ||
-        //   document.body.clientWidth
-        // ;
-
-        // height =
-        //   window.innerHeight ||
-        //   document.documentElement.clientHeight ||
-        //   document.body.clientHeight
-        // ;
-
-        pause =
-          width <= image.getBoundingClientRect().width ||
-          height <= image.getBoundingClientRect().height
-        ;
-
-        image.style.left = 'calc(50vw - 150px)'
-        image.style.top = 'calc(50vh - 28px)'
-      }
-
-      reset()
-
-      window.addEventListener('resize', reset, true)
+    // Set the new position
+    mover.style.left = posX + "px";
+}, 100); // this number is how many milliseconds in between each move.
+// Smaller interval time means smoother movement but slower performance.
     </script>
   </body>
 </html>
