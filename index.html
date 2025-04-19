@@ -8,8 +8,8 @@
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
     <style>
       #image {
-        width: 300px;
-        height: 300px;
+        width: 50%;
+        height: 50%;
       }
 
       body {
@@ -32,8 +32,8 @@
       const image = document.getElementById("image")
       let posX = 100;
       let posY = 100;
-      let velocityX = 1;
-      let velocityY = 1;
+      let velocityX = 2;
+      let velocityY = 2;
 
       function updatePosition() {
         const imageRect = image.getBoundingClientRect()
