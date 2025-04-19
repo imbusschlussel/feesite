@@ -18,7 +18,6 @@
       body {
         width: 100vw;
         height: 100vh;
-        background-color: #0f0f13;
         overflow: hidden;
         position: relative;
       }
@@ -35,8 +34,6 @@
 
       const body = document.querySelector('body')
       const image = document.querySelector('#cover-image')
-
-      let colors = [ '#26de81', '#fc5c65', '#fd9644', '#fed330', '#2bcbba', '#45aaf2', '#4b7bec', '#a55eea', '#ffc1f3', '#76ead7', '#ff9c71', '#32e0c4', '#d291bc', '#fa744f' ]
 
       let FPS = 60
 
@@ -58,25 +55,9 @@
 
         if (left + rect.width >= width || left <= 0) {
           velocityX = -velocityX
-          let randomColor = getRandomColor()
-          image.style.stroke = randomColor
-          
-          if (left + 150 <= width / 2) {
-            body.style.boxShadow = `inset 4px 0px 0px 0px ${randomColor}`
-          } else {
-            body.style.boxShadow = `inset -4px 0px 0px 0px ${randomColor}`
-          }
         }
         if (top + rect.height >= height || top <= 0) {
           velocityY = -velocityY
-          let randomColor = getRandomColor()
-          image.style.stroke = randomColor
-          
-          if (top + 28 <= height / 2) {
-            body.style.boxShadow = `inset 0px 4px 0px 0px ${randomColor}`
-          } else {
-            body.style.boxShadow = `inset 0px -4px 0px 0px ${randomColor}`
-          }
         }
 
         image.style.left = rect.x + velocityX + 'px'
@@ -102,22 +83,8 @@
           height <= image.getBoundingClientRect().height
         ;
 
-        label.style.left = 'calc(50vw - 150px)'
-        label.style.top = 'calc(50vh - 28px)'
-        label.style.stroke = colors[0]
-      }
-
-
-      const getRandomColor = () => {
-        let currentColor = -1
-        
-        do {
-          currentColor = Math.floor(Math.random() * colors.length);
-        } while (previousColor == currentColor);
-        
-        previousColor = currentColor
-        
-        return colors[currentColor]
+        iamge.style.left = 'calc(50vw - 150px)'
+        iamge.style.top = 'calc(50vh - 28px)'
       }
 
       reset()
