@@ -61,52 +61,53 @@
     <img id="image" src="cover.webp" alt="Album Cover FEE004" onclick="play()" />
     <audio id="audio" src="./atf_tfop.mp3" />
     <script>
-      function play() {
-        const audioElement = document.querySelector("#audio")
-        if (!audioElement.paused) {
-          audioElement.pause()
-          return
-        }
-        audioElement.play()
-      }
+        function play() {
+    const audioElement = document.querySelector("#audio");
+    if (!audioElement.paused) {
+      audioElement.pause();
+      return;
+    }
+    audioElement.play();
+  }
 
-      const image = document.getElementById("image")
-      let posX = 100
-      let posY = 100
-      let velocityX;
-      let velocityY;
+  const image = document.getElementById("image");
+  let posX = 100;
+  let posY = 100;
+  let velocityX;
+  let velocityY;
 
-      function setVelocity() {
-        const baseSpeed = 200; // tweak this for overall speed
-        velocityX = baseSpeed / window.innerWidth;
-        velocityY = baseSpeed / window.innerHeight;
+  function setVelocity() {
+    const baseSpeed = 200; // tweak this for overall speed
+    velocityX = baseSpeed / window.innerWidth;
+    velocityY = baseSpeed / window.innerHeight;
+  }
 
-         // Initial velocity setup
-         setVelocity();
+  // Initial velocity setup
+  setVelocity();
 
+  function updatePosition() {
+    const imageRect = image.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
 
+    if (posX + imageRect.width >= windowWidth || posX <= 0) {
+      velocityX = -velocityX;
+    }
+    if (posY + imageRect.height >= windowHeight || posY <= 0) {
+      velocityY = -velocityY;
+    }
 
-      function updatePosition() {
-        const imageRect = image.getBoundingClientRect()
-        const windowWidth = window.innerWidth
-        const windowHeight = window.innerHeight
+    posX += velocityX * 10; // multiplier for visual impact
+    posY += velocityY * 10;
 
-        if (posX + imageRect.width >= windowWidth || posX <= 0) {
-          velocityX = -velocityX
-        }
-        if (posY + imageRect.height >= windowHeight || posY <= 0) {
-          velocityY = -velocityY
-        }
+    image.style.transform = `translate(${posX}px, ${posY}px)`;
+    requestAnimationFrame(updatePosition);
+  }
 
-        posX += velocityX * 10; // multiplier for visual impact
-        posY += velocityY * 10;
+  window.addEventListener('resize', setVelocity);
 
-        image.style.transform = `translate(${posX}px, ${posY}px)`
-        requestAnimationFrame(updatePosition)
-      }
-      window.addEventListener('resize', setVelocity);
-      image.style.position = 'absolute'
-      updatePosition()
+  image.style.position = 'absolute';
+  updatePosition();
     </script>
   </body>
 </html>
