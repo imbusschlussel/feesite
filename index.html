@@ -45,7 +45,7 @@
         color: black;
         z-index: 10;
       }
-      
+
       a:hover {
         color: #DBD7C4;
       }
@@ -73,8 +73,18 @@
       const image = document.getElementById("image")
       let posX = 100
       let posY = 100
-      let velocityX = 1
-      let velocityY = 1
+      let velocityX;
+      let velocityY;
+
+      function setVelocity() {
+        const baseSpeed = 200; // tweak this for overall speed
+        velocityX = baseSpeed / window.innerWidth;
+        velocityY = baseSpeed / window.innerHeight;
+
+         // Initial velocity setup
+         setVelocity();
+
+
 
       function updatePosition() {
         const imageRect = image.getBoundingClientRect()
@@ -88,8 +98,8 @@
           velocityY = -velocityY
         }
 
-        posX += velocityX
-        posY += velocityY
+        posX += velocityX * 10; // multiplier for visual impact
+        posY += velocityY * 10;
 
         image.style.transform = `translate(${posX}px, ${posY}px)`
         requestAnimationFrame(updatePosition)
