@@ -104,7 +104,7 @@
         image.style.transform = `translate(${posX}px, ${posY}px)`
         requestAnimationFrame(updatePosition)
       }
-
+      window.addEventListener('resize', setVelocity);
       image.style.position = 'absolute'
       updatePosition()
     </script>
