@@ -77,7 +77,7 @@
   let velocityY;
 
   function setVelocity() {
-    const baseSpeed = 200; // tweak this for overall speed
+    const baseSpeed = 100; // tweak this for overall speed
     velocityX = baseSpeed / window.innerWidth;
     velocityY = baseSpeed / window.innerHeight;
   }
@@ -97,8 +97,8 @@
       velocityY = -velocityY;
     }
 
-    posX += velocityX * 10; // multiplier for visual impact
-    posY += velocityY * 10;
+    posX += velocityX * 30; // multiplier for visual impact
+    posY += velocityY * 30;
 
     image.style.transform = `translate(${posX}px, ${posY}px)`;
     requestAnimationFrame(updatePosition);
