@@ -110,8 +110,8 @@
 
  // Occasionally apply a tiny directional nudge
  if (Math.random() < 0.05) {
-    velocityX += (Math.random() - 0.5) * randomnessScale;
-    velocityY += (Math.random() - 0.5) * randomnessScale;
+    velocityX = (Math.random() - 0.5) * randomnessScale;
+    velocityY = (Math.random() - 0.5) * randomnessScale;
 
      // Clamp speed to avoid runaway
     velocityX = Math.max(-maxSpeed, Math.min(maxSpeed, velocityX));
