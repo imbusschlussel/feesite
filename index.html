@@ -101,32 +101,30 @@
   setVelocity();
 
   function updatePosition() {
-    const imageRect = image.getBoundingClientRect();
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
+  const imageRect = image.getBoundingClientRect();
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
 
-    // Brownian-style randomness
-   const randomnessScale = 0.01; // higher = more chaotic
-     // Low chaos, but still has movement
-   const randomnessScale = 0.01;
-   const driftSpeed = 0.1; // constant drift
+  // Low chaos, but still has movement
+  const randomnessScale = 0.01;
+  const driftSpeed = 0.1; // constant drift
 
-   // Brownian jitter + slow directional drift
-   velocityX = (Math.random() - 0.5) * randomnessScale + driftSpeed;
-   velocityY = (Math.random() - 0.5) * randomnessScale + driftSpeed;
+  // Brownian jitter + slow directional drift
+  velocityX = (Math.random() - 0.5) * randomnessScale + driftSpeed;
+  velocityY = (Math.random() - 0.5) * randomnessScale + driftSpeed;
 
-   // Constrain inside window
-   if (posX + imageRect.width >= windowWidth) posX = windowWidth - imageRect.width;
-   if (posX <= 0) posX = 0;
-   if (posY + imageRect.height >= windowHeight) posY = windowHeight - imageRect.height;
-   if (posY <= 0) posY = 0;
+  // Constrain inside window
+  if (posX + imageRect.width >= windowWidth) posX = windowWidth - imageRect.width;
+  if (posX <= 0) posX = 0;
+  if (posY + imageRect.height >= windowHeight) posY = windowHeight - imageRect.height;
+  if (posY <= 0) posY = 0;
 
-    posX += velocityX * 30; // multiplier for visual impact
-    posY += velocityY * 30;
+  posX += velocityX * 30;
+  posY += velocityY * 30;
 
-    image.style.transform = `translate(${posX}px, ${posY}px)`;
-    requestAnimationFrame(updatePosition);
-  }
+  image.style.transform = `translate(${posX}px, ${posY}px)`;
+  requestAnimationFrame(updatePosition);
+}
 
   window.addEventListener('resize', setVelocity);
 
