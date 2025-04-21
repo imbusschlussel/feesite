@@ -54,6 +54,7 @@
   <body>
     <nav>
       <ul>
+        <li><a href="https://feesite.vercel.app/" target="_blank" rel="noreferrer noopener nofollow">reload</a></li>
         <li><a href="https://instagram.com/findersfeerecs" target="_blank" rel="noreferrer noopener nofollow">instagram</a></li>
         <li><a href="https://findersfee.bandcamp.com/" target="_blank" rel="noreferrer noopener nofollow">bandcamp</a></li>
       </ul>
@@ -80,7 +81,7 @@
     //const baseSpeed = 100; // tweak this for overall speed
    
     const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-    const baseSpeed = isMobile ? 45 : 90; // slower on mobile
+    const baseSpeed = isMobile ? 15 : 30; // slower on mobile
 
    // Save the direction before updating
    const dirX = Math.sign(velocityX || 1); // default to 1 on first run
@@ -91,8 +92,8 @@
    const speedY = baseSpeed / window.innerHeight;
 
     // Restore original direction
-    velocityX = dirX * speedX;
-    velocityY = dirY * speedY;
+    velocityX = dirX * 3 * speedX;
+    velocityY = dirY * 3 * speedY;
   }
 
   // Initial velocity setup
