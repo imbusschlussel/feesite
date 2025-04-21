@@ -105,22 +105,26 @@
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
 
-  // Low chaos, but still has movement
-  const randomnessScale = 0.01;
-  const driftSpeed = 0.1; // constant drift
+  const randomnessScale = 0.02; // bump it up a bit for visible movement
+  const driftSpeed = 0.1;
 
-  // Brownian jitter + slow directional drift
+  // Brownian jitter + slight drift
   velocityX = (Math.random() - 0.5) * randomnessScale + driftSpeed;
   velocityY = (Math.random() - 0.5) * randomnessScale + driftSpeed;
 
-  // Constrain inside window
-  if (posX + imageRect.width >= windowWidth) posX = windowWidth - imageRect.width;
-  if (posX <= 0) posX = 0;
-  if (posY + imageRect.height >= windowHeight) posY = windowHeight - imageRect.height;
-  if (posY <= 0) posY = 0;
-
+  // Update position first
   posX += velocityX * 30;
   posY += velocityY * 30;
+
+  // Bounce if it hits edges (with randomness!)
+  if (posX + imageRect.width >= windowWidth || posX <= 0) {
+    velocityX *= -1 * (Math.random() + 0.5); // reflect & randomize
+    posX = Math.max(0, Math.min(posX, windowWidth - imageRect.width));
+  }
+  if (posY + imageRect.height >= windowHeight || posY <= 0) {
+    velocityY *= -1 * (Math.random() + 0.5);
+    posY = Math.max(0, Math.min(posY, windowHeight - imageRect.height));
+  }
 
   image.style.transform = `translate(${posX}px, ${posY}px)`;
   requestAnimationFrame(updatePosition);
