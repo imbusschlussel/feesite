@@ -78,8 +78,18 @@
 
   function setVelocity() {
     const baseSpeed = 100; // tweak this for overall speed
-    velocityX = baseSpeed / window.innerWidth;
-    velocityY = baseSpeed / window.innerHeight;
+   
+   // Save the direction before updating
+   const dirX = Math.sign(velocityX || 1); // default to 1 on first run
+   const dirY = Math.sign(velocityY || 1);
+
+    // Update magnitude based on window size
+   const speedX = baseSpeed / window.innerWidth;
+   const speedY = baseSpeed / window.innerHeight;
+
+    // Restore original direction
+    velocityX = dirX * speedX;
+    velocityY = dirY * speedY;
   }
 
   // Initial velocity setup
