@@ -77,8 +77,12 @@
   let velocityY;
 
   function setVelocity() {
-    const baseSpeed = 100; // tweak this for overall speed
+    //const baseSpeed = 100; // tweak this for overall speed
    
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    const baseSpeed = isMobile ? 20 : 100; // faster on mobile
+
+
    // Save the direction before updating
    const dirX = Math.sign(velocityX || 1); // default to 1 on first run
    const dirY = Math.sign(velocityY || 1);
