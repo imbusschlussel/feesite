@@ -116,8 +116,8 @@
   velocityX = Math.max(-maxSpeed, Math.min(maxSpeed, velocityX));
   velocityY = Math.max(-maxSpeed, Math.min(maxSpeed, velocityY));
 
-  posX += velocityX * 30;
-  posY += velocityY * 30;
+  posX += velocityX * 10;
+  posY += velocityY * 10;
 
   // Bounce with proper reflection
   if (posX + imageRect.width >= windowWidth || posX <= 0) {
