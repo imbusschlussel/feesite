@@ -105,24 +105,28 @@
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
 
-  const randomnessScale = 0.02; // bump it up a bit for visible movement
-  const driftSpeed = 0.1;
+  const randomnessScale = 0.02;
 
-  // Brownian jitter + slight drift
-  velocityX = (Math.random() - 0.5) * randomnessScale + driftSpeed;
-  velocityY = (Math.random() - 0.5) * randomnessScale + driftSpeed;
+  // Slight Brownian-style jitter on existing velocity
+  velocityX += (Math.random() - 0.5) * randomnessScale;
+  velocityY += (Math.random() - 0.5) * randomnessScale;
 
-  // Update position first
+  // Limit speed to prevent runaway motion
+  const maxSpeed = 0.5;
+  velocityX = Math.max(-maxSpeed, Math.min(maxSpeed, velocityX));
+  velocityY = Math.max(-maxSpeed, Math.min(maxSpeed, velocityY));
+
   posX += velocityX * 30;
   posY += velocityY * 30;
 
-  // Bounce if it hits edges (with randomness!)
+  // Bounce with proper reflection
   if (posX + imageRect.width >= windowWidth || posX <= 0) {
-    velocityX *= -1 * (Math.random() + 0.5); // reflect & randomize
+    velocityX *= -1;
     posX = Math.max(0, Math.min(posX, windowWidth - imageRect.width));
   }
+
   if (posY + imageRect.height >= windowHeight || posY <= 0) {
-    velocityY *= -1 * (Math.random() + 0.5);
+    velocityY *= -1;
     posY = Math.max(0, Math.min(posY, windowHeight - imageRect.height));
   }
 
