@@ -105,14 +105,14 @@
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
 
-  const randomnessScale = 0.02;
+  const randomnessScale = 0.005;
 
   // Slight Brownian-style jitter on existing velocity
   velocityX += (Math.random() - 0.5) * randomnessScale;
   velocityY += (Math.random() - 0.5) * randomnessScale;
 
   // Limit speed to prevent runaway motion
-  const maxSpeed = 0.5;
+  const maxSpeed = 0.3;
   velocityX = Math.max(-maxSpeed, Math.min(maxSpeed, velocityX));
   velocityY = Math.max(-maxSpeed, Math.min(maxSpeed, velocityY));
 
