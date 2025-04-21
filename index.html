@@ -107,15 +107,19 @@
 
     // Brownian-style randomness
    const randomnessScale = 0.01; // higher = more chaotic
-   velocityX = (Math.random() - 0.5) * randomnessScale;
-   velocityY = (Math.random() - 0.5) * randomnessScale;
+     // Low chaos, but still has movement
+   const randomnessScale = 0.01;
+   const driftSpeed = 0.1; // constant drift
 
-    if (posX + imageRect.width >= windowWidth || posX <= 0) {
-      velocityX = -velocityX;
-    }
-    if (posY + imageRect.height >= windowHeight || posY <= 0) {
-      velocityY = -velocityY;
-    }
+   // Brownian jitter + slow directional drift
+   velocityX = (Math.random() - 0.5) * randomnessScale + driftSpeed;
+   velocityY = (Math.random() - 0.5) * randomnessScale + driftSpeed;
+
+   // Constrain inside window
+   if (posX + imageRect.width >= windowWidth) posX = windowWidth - imageRect.width;
+   if (posX <= 0) posX = 0;
+   if (posY + imageRect.height >= windowHeight) posY = windowHeight - imageRect.height;
+   if (posY <= 0) posY = 0;
 
     posX += velocityX * 30; // multiplier for visual impact
     posY += velocityY * 30;
