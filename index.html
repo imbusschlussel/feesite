@@ -68,80 +68,82 @@
     <audio id="audio" src="./atf_tfop.mp3"></audio>
 
     <script>
-      function play() {
-        const audioElement = document.querySelector("#audio");
-        if (!audioElement.paused) {
-          audioElement.pause();
-          return;
+      const albums = [
+        { image: "fee004cover.webp", audio: "atf_tfop.mp3" },
+        { image: "fee003cover.webp", audio: "fee003_1.mp3" },
+        //{ image: "cover3.webp", audio: "track3.mp3" },
+        // Add more here
+      ];
+    
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+      const baseSpeed = isMobile ? 15 : 30;
+    
+      albums.forEach((album, index) => {
+        // Create elements
+        const img = document.createElement("img");
+        img.src = album.image;
+        img.alt = `Album ${index}`;
+        img.classList.add("floating-image");
+        img.style.position = "absolute";
+        img.style.width = "30%";
+        img.style.cursor = "pointer";
+        document.body.appendChild(img);
+    
+        const audio = document.createElement("audio");
+        audio.src = album.audio;
+        audio.preload = "auto";
+        document.body.appendChild(audio);
+    
+        // State per album
+        let posX = Math.random() * window.innerWidth / 2;
+        let posY = Math.random() * window.innerHeight / 2;
+        let velocityX = (Math.random() - 0.5) * baseSpeed / window.innerWidth * 6;
+        let velocityY = (Math.random() - 0.5) * baseSpeed / window.innerHeight * 6;
+    
+        img.addEventListener("click", () => {
+          if (audio.paused) {
+            audio.play();
+          } else {
+            audio.pause();
+          }
+        });
+    
+        // Animation loop
+        function animate() {
+          const rect = img.getBoundingClientRect();
+          const w = window.innerWidth;
+          const h = window.innerHeight;
+    
+          const randomnessScale = 0.01;
+          const maxSpeed = baseSpeed / Math.min(w, h);
+    
+          if (Math.random() < 0.05) {
+            velocityX += (Math.random() - 0.5) * randomnessScale;
+            velocityY += (Math.random() - 0.5) * randomnessScale;
+            velocityX = Math.max(-maxSpeed, Math.min(maxSpeed, velocityX));
+            velocityY = Math.max(-maxSpeed, Math.min(maxSpeed, velocityY));
+          }
+    
+          posX += velocityX * 3;
+          posY += velocityY * 3;
+    
+          // bounce
+          if (posX + rect.width >= w || posX <= 0) {
+            velocityX *= -1;
+            posX = Math.max(0, Math.min(posX, w - rect.width));
+          }
+          if (posY + rect.height >= h || posY <= 0) {
+            velocityY *= -1;
+            posY = Math.max(0, Math.min(posY, h - rect.height));
+          }
+    
+          img.style.transform = `translate(${posX}px, ${posY}px)`;
+          requestAnimationFrame(animate);
         }
-        audioElement.play();
-      }
-
-      const image = document.getElementById("image");
-      let posX = 100;
-      let posY = 100;
-      let velocityX;
-      let velocityY;
-      let maxSpeedX;
-      let maxSpeedY;
-
-      const isMobile = /Mobi|Android/i.test(navigator.userAgent); // detect mobile
-      const randomnessScale = isMobile ? 0.02 : 0.015; // mobile gets more turbulence
-      const nudgeChance = isMobile ? 0.15 : 0.1; // more frequent nudging on mobile
-      const maxSpeed = 0.1;
-
-      function setVelocity() {
-       const baseSpeed = isMobile ? 15 : 30;
-       const dirX = Math.sign(velocityX || 1);
-       const dirY = Math.sign(velocityY || 1);
-       const speedX = baseSpeed / window.innerWidth;
-       const speedY = baseSpeed / window.innerHeight;
-
-       velocityX = dirX * 3 * speedX;
-       velocityY = dirY * 3 * speedY;
-
-  // ✅ Dynamically update maxSpeed based on screen size
-       maxSpeedX = 4 * speedX;
-       maxSpeedY = 4 * speedY;
-      }
-
-
-      setVelocity();
-
-      function updatePosition() {
-        const imageRect = image.getBoundingClientRect();
-        const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
-
-        // Occasionally nudge with turbulence
-        if (Math.random() < nudgeChance) {
-          velocityX += (Math.random() - 0.5) * randomnessScale;
-          velocityY += (Math.random() - 0.5) * randomnessScale;
-
-          velocityX = Math.max(-maxSpeedX, Math.min(maxSpeedX, velocityX));
-          velocityY = Math.max(-maxSpeedY, Math.min(maxSpeedY, velocityY));
-        }
-
-        posX += velocityX * 3;
-        posY += velocityY * 3;
-
-        if (posX + imageRect.width >= windowWidth || posX <= 0) {
-          velocityX *= -1;
-          posX = Math.max(0, Math.min(posX, windowWidth - imageRect.width));
-        }
-
-        if (posY + imageRect.height >= windowHeight || posY <= 0) {
-          velocityY *= -1;
-          posY = Math.max(0, Math.min(posY, windowHeight - imageRect.height));
-        }
-
-        image.style.transform = `translate(${posX}px, ${posY}px)`;
-        requestAnimationFrame(updatePosition);
-      }
-
-      window.addEventListener("resize", setVelocity);
-      image.style.position = "absolute";
-      updatePosition();
+    
+        animate();
+      });
     </script>
+    
   </body>
 </html>
