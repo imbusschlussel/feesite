@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Finder's Fee</title>
-    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <style>
       #image {
         width: 30%;
@@ -22,22 +22,21 @@
         overflow: hidden;
         position: relative;
       }
-      
+
       nav ul {
         list-style: none;
-        list-style-type: none;
         display: flex;
         position: absolute;
         top: 4px;
         left: 4px;
       }
-      
+
       nav ul li {
         font-weight: 500;
         font-size: 0.75rem;
         margin-right: 8px;
       }
-      
+
       a {
         cursor: pointer !important;
         pointer-events: auto;
@@ -47,122 +46,94 @@
       }
 
       a:hover {
-        color: #DBD7C4;
+        color: #dbd7c4;
       }
     </style>
   </head>
   <body>
     <nav>
       <ul>
-        <li><a href="https://feesite.vercel.app/" target="_blank" rel="noreferrer noopener nofollow">reload</a></li>
-        <li><a href="https://instagram.com/findersfeerecs" target="_blank" rel="noreferrer noopener nofollow">instagram</a></li>
-        <li><a href="https://findersfee.bandcamp.com/" target="_blank" rel="noreferrer noopener nofollow">bandcamp</a></li>
+        <li>
+          <a href="https://feesite.vercel.app/" target="_blank" rel="noreferrer noopener nofollow">reload</a>
+        </li>
+        <li>
+          <a href="https://instagram.com/findersfeerecs" target="_blank" rel="noreferrer noopener nofollow">instagram</a>
+        </li>
+        <li>
+          <a href="https://findersfee.bandcamp.com/" target="_blank" rel="noreferrer noopener nofollow">bandcamp</a>
+        </li>
       </ul>
     </nav>
     <img id="image" src="cover.webp" alt="Album Cover FEE004" onclick="play()" />
-    <audio id="audio" src="./atf_tfop.mp3" />
+    <audio id="audio" src="./atf_tfop.mp3"></audio>
+
     <script>
-        function play() {
-    const audioElement = document.querySelector("#audio");
-    if (!audioElement.paused) {
-      audioElement.pause();
-      return;
-    }
-    audioElement.play();
-  }
+      function play() {
+        const audioElement = document.querySelector("#audio");
+        if (!audioElement.paused) {
+          audioElement.pause();
+          return;
+        }
+        audioElement.play();
+      }
 
-  const image = document.getElementById("image");
-  let posX = 100;
-  let posY = 100;
-  let velocityX;
-  let velocityY;
+      const image = document.getElementById("image");
+      let posX = 100;
+      let posY = 100;
+      let velocityX;
+      let velocityY;
 
-  function setVelocity() {
-    //const baseSpeed = 100; // tweak this for overall speed
-   
-    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-    const baseSpeed = isMobile ? 15 : 30; // slower on mobile
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent); // detect mobile
+      const randomnessScale = isMobile ? 0.02 : 0.01; // mobile gets more turbulence
+      const nudgeChance = isMobile ? 0.15 : 0.05; // more frequent nudging on mobile
+      const maxSpeed = 0.1;
 
-   // Save the direction before updating
-   const dirX = Math.sign(velocityX || 1); // default to 1 on first run
-   const dirY = Math.sign(velocityY || 1);
+      function setVelocity() {
+        const baseSpeed = isMobile ? 15 : 30;
+        const dirX = Math.sign(velocityX || 1);
+        const dirY = Math.sign(velocityY || 1);
+        const speedX = baseSpeed / window.innerWidth;
+        const speedY = baseSpeed / window.innerHeight;
+        velocityX = dirX * 3 * speedX;
+        velocityY = dirY * 3 * speedY;
+      }
 
-    // Update magnitude based on window size
-   const speedX = baseSpeed / window.innerWidth;
-   const speedY = baseSpeed / window.innerHeight;
+      setVelocity();
 
-    // Restore original direction
-    velocityX = dirX * 3 * speedX;
-    velocityY = dirY * 3 * speedY;
-  }
+      function updatePosition() {
+        const imageRect = image.getBoundingClientRect();
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
 
-  // Initial velocity setup
-  setVelocity();
+        // Occasionally nudge with turbulence
+        if (Math.random() < nudgeChance) {
+          velocityX += (Math.random() - 0.5) * randomnessScale;
+          velocityY += (Math.random() - 0.5) * randomnessScale;
 
-  function updatePosition() {
-  const imageRect = image.getBoundingClientRect();
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
+          velocityX = Math.max(-maxSpeed, Math.min(maxSpeed, velocityX));
+          velocityY = Math.max(-maxSpeed, Math.min(maxSpeed, velocityY));
+        }
 
-  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-  const randomnessScale = isMobile ? 0.02 : 0.01;
-  const maxSpeed = 0.6;
+        posX += velocityX * 3;
+        posY += velocityY * 3;
 
-if (Math.random() < (isMobile ? 0.15 : 0.05)) {
-  velocityX += (Math.random() - 0.5) * randomnessScale;
-  velocityY += (Math.random() - 0.5) * randomnessScale;
+        if (posX + imageRect.width >= windowWidth || posX <= 0) {
+          velocityX *= -1;
+          posX = Math.max(0, Math.min(posX, windowWidth - imageRect.width));
+        }
 
-  velocityX = Math.max(-maxSpeed, Math.min(maxSpeed, velocityX));
-  velocityY = Math.max(-maxSpeed, Math.min(maxSpeed, velocityY));
-}   
+        if (posY + imageRect.height >= windowHeight || posY <= 0) {
+          velocityY *= -1;
+          posY = Math.max(0, Math.min(posY, windowHeight - imageRect.height));
+        }
 
-  const randomnessScale = (0.01);
-  const maxSpeed = 0.1;
+        image.style.transform = `translate(${posX}px, ${posY}px)`;
+        requestAnimationFrame(updatePosition);
+      }
 
- // Occasionally apply a tiny directional nudge
- if (Math.random() < 0.05) {
-    velocityX += (Math.random() - 0.5) * randomnessScale;
-    velocityY += (Math.random() - 0.5) * randomnessScale;
-
-     // Clamp speed to avoid runaway
-    velocityX = Math.max(-maxSpeed, Math.min(maxSpeed, velocityX));
-    velocityY = Math.max(-maxSpeed, Math.min(maxSpeed, velocityY));
-  }
-
-//mobile add
-
-
-
-  // Slight Brownian-style jitter on existing velocity
- // velocityX += (Math.random() - 0.5) * randomnessScale;
- // velocityY += (Math.random() - 0.5) * randomnessScale;
-
-  // Limit speed to prevent runaway motion
- // velocityX = Math.max(-maxSpeed, Math.min(maxSpeed, velocityX));
- // velocityY = Math.max(-maxSpeed, Math.min(maxSpeed, velocityY));
-
-  posX += velocityX * 3;
-  posY += velocityY * 3;
-
-  // Bounce with proper reflection
-  if (posX + imageRect.width >= windowWidth || posX <= 0) {
-    velocityX *= -1;
-    posX = Math.max(0, Math.min(posX, windowWidth - imageRect.width));
-  }
-
-  if (posY + imageRect.height >= windowHeight || posY <= 0) {
-    velocityY *= -1;
-    posY = Math.max(0, Math.min(posY, windowHeight - imageRect.height));
-  }
-
-  image.style.transform = `translate(${posX}px, ${posY}px)`;
-  requestAnimationFrame(updatePosition);
-}
-
-  window.addEventListener('resize', setVelocity);
-
-  image.style.position = 'absolute';
-  updatePosition();
+      window.addEventListener("resize", setVelocity);
+      image.style.position = "absolute";
+      updatePosition();
     </script>
   </body>
 </html>
