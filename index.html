@@ -82,6 +82,8 @@
       let posY = 100;
       let velocityX;
       let velocityY;
+      let maxSpeedX;
+      let maxSpeedY;
 
       const isMobile = /Mobi|Android/i.test(navigator.userAgent); // detect mobile
       const randomnessScale = isMobile ? 0.02 : 0.015; // mobile gets more turbulence
@@ -89,14 +91,20 @@
       const maxSpeed = 0.1;
 
       function setVelocity() {
-        const baseSpeed = isMobile ? 15 : 30;
-        const dirX = Math.sign(velocityX || 1);
-        const dirY = Math.sign(velocityY || 1);
-        const speedX = baseSpeed / window.innerWidth;
-        const speedY = baseSpeed / window.innerHeight;
-        velocityX = dirX * 3 * speedX;
-        velocityY = dirY * 3 * speedY;
+       const baseSpeed = isMobile ? 15 : 30;
+       const dirX = Math.sign(velocityX || 1);
+       const dirY = Math.sign(velocityY || 1);
+       const speedX = baseSpeed / window.innerWidth;
+       const speedY = baseSpeed / window.innerHeight;
+
+       velocityX = dirX * 3 * speedX;
+       velocityY = dirY * 3 * speedY;
+
+  // ✅ Dynamically update maxSpeed based on screen size
+       maxSpeedX = 4 * speedX;
+       maxSpeedY = 4 * speedY;
       }
+
 
       setVelocity();
 
@@ -110,8 +118,8 @@
           velocityX += (Math.random() - 0.5) * randomnessScale;
           velocityY += (Math.random() - 0.5) * randomnessScale;
 
-          velocityX = Math.max(-maxSpeed, Math.min(maxSpeed, velocityX));
-          velocityY = Math.max(-maxSpeed, Math.min(maxSpeed, velocityY));
+          velocityX = Math.max(-maxSpeedX, Math.min(maxSpeedX, velocityX));
+          velocityY = Math.max(-maxSpeedY, Math.min(maxSpeedY, velocityY));
         }
 
         posX += velocityX * 3;
