@@ -104,6 +104,18 @@
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
 
+  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+  const randomnessScale = isMobile ? 0.02 : 0.01;
+  const maxSpeed = 0.6;
+
+if (Math.random() < (isMobile ? 0.15 : 0.05)) {
+  velocityX += (Math.random() - 0.5) * randomnessScale;
+  velocityY += (Math.random() - 0.5) * randomnessScale;
+
+  velocityX = Math.max(-maxSpeed, Math.min(maxSpeed, velocityX));
+  velocityY = Math.max(-maxSpeed, Math.min(maxSpeed, velocityY));
+}   
+
   const randomnessScale = (0.01);
   const maxSpeed = 0.1;
 
@@ -119,17 +131,7 @@
 
 //mobile add
 
-const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-const randomnessScale = isMobile ? 0.02 : 0.01;
-const maxSpeed = 0.6;
 
-if (Math.random() < (isMobile ? 0.15 : 0.05)) {
-  velocityX += (Math.random() - 0.5) * randomnessScale;
-  velocityY += (Math.random() - 0.5) * randomnessScale;
-
-  velocityX = Math.max(-maxSpeed, Math.min(maxSpeed, velocityX));
-  velocityY = Math.max(-maxSpeed, Math.min(maxSpeed, velocityY));
-}
 
   // Slight Brownian-style jitter on existing velocity
  // velocityX += (Math.random() - 0.5) * randomnessScale;
