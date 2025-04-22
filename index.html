@@ -84,8 +84,8 @@
       let velocityY;
 
       const isMobile = /Mobi|Android/i.test(navigator.userAgent); // detect mobile
-      const randomnessScale = isMobile ? 0.02 : 0.01; // mobile gets more turbulence
-      const nudgeChance = isMobile ? 0.15 : 0.05; // more frequent nudging on mobile
+      const randomnessScale = isMobile ? 0.02 : 0.015; // mobile gets more turbulence
+      const nudgeChance = isMobile ? 0.15 : 0.1; // more frequent nudging on mobile
       const maxSpeed = 0.1;
 
       function setVelocity() {
